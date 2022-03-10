@@ -3,7 +3,6 @@ package Test.step4;
 import java.sql.SQLException;
 
 import model.ProductDAO;
-import model.ProductVO;
 
 public class TestDeleteProduct {
 	public static void main(String[] args) {

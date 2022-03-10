@@ -109,8 +109,18 @@ public class ProductDAO {
 		
 	}//REGISTERPRODUCT
 
-	public void deleteProductById(int id) {
-		
+	public void deleteProductById(int id) throws SQLException{
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		try {
+			con=getConnection();
+			String sql="DELETE FROM PRODUCT WHERE ID=?";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1,id);
+			pstmt.executeUpdate();
+		}finally {
+			closeAll(pstmt,con);
+		}
 		
 		
 		
