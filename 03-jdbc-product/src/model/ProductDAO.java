@@ -81,7 +81,41 @@ public class ProductDAO {
 		}
 		return vo;
 	}
-	
+
+	/*
+	 * INSERT INTO PRODUCT(ID,NAME,MAKER,PRICE)VALUES(?,?,?,?)
+	 */
+	//UPDATE하기
+	public void registerProduct(ProductVO productVO) throws SQLException{
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		try {
+			con=getConnection();
+			String sql="INSERT INTO PRODUCT(ID,NAME,MAKER,PRICE)VALUES(?,?,?,?)";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, productVO.getId());//1은 첫번째 물음표
+			pstmt.setString(2, productVO.getName());
+			pstmt.setString(3, productVO.getMaker());
+			pstmt.setInt(4, productVO.getPrice());
+			pstmt.executeUpdate();//insert,delete,update시에 사용!
+		}finally {
+			closeAll(pstmt, con);
+		}
+		
+		
+		
+		
+		
+		
+	}//REGISTERPRODUCT
+
+	public void deleteProductById(int id) {
+		
+		
+		
+		
+		
+	}//deleteProductById
 }
 
 
