@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import common.DbInfo;
 
@@ -126,6 +127,27 @@ public class ProductDAO {
 		
 		
 	}//deleteProductById
+
+	public ArrayList<ProductVO> getAllProductList() throws SQLException {
+		ArrayList<ProductVO> list=new ArrayList<ProductVO>();
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		try {
+			con=getConnection();
+			String sql="SELECT id,name,maker,price FROM PRODUCT ORDER BY ID DESC";
+			pstmt=con.prepareStatement(sql);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				ProductVO vo=new ProductVO(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getInt(4));
+				list.add(vo);
+			}
+				
+		}finally {
+			closeAll(rs,pstmt,con);
+		}
+		return list;
+	}
 }
 
 
