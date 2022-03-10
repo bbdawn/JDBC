@@ -1,0 +1,16 @@
+JDBC 개발 단계
+#1 SELECT
+1.	Driver loading(생략가능)
+2.	Connection
+3.	SQL 정의 Prepared Statement
+4.	SQL 실행 executeQuery();
+5.	ResultSet
+		next() :boolean 다음행이 있으면 true
+6.	close
+------
+#2 INSERT, DELETE, UPDATE
+1.	Driver loading(생략가능)
+2.	Connection
+3.	SQL 정의 Prepared Statement
+4.	SQL 실행 Update(): int
+5.	close
