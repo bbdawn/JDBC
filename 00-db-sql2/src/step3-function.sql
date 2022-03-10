@@ -49,6 +49,33 @@ SELECT NAME,PRICE
 FROM PRODUCT
 ORDER BY PRICE DESC; 
 
+/*
+ *  SELECT 컬럼명
+ *  FROM 테이블명
+ *  WHERE 조건절 AND 조건절
+ * 	GROUP BY 컬럼명
+ *  HAVING
+ *  ORDER BY
+ */
+
+--MAKER가 하이트진로인 상품의 ID,NAME,PRICE를 조회하되, PRICE 내림차순으로 정렬
+SELECT ID,NAME,PRICE
+FROM PRODUCT
+WHERE MAKER='하이트진로'
+ORDER BY PRICE DESC;
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
