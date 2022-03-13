@@ -27,3 +27,22 @@
 	에는 ROLLBACK처리를 해서 
 	작업내용을 취소(1.카드발급취소)하고 이전 상태로 되돌려야한다 
 */
+
+/*
+- java application ( jdbc ) 에서 트랜잭션 처리 
+ 	   
+ 	   JDBC 트랜잭션 설정 : auto commit 이 기본 , 수동 모드로 변경하려면 connection.setAutoCommit(false) 를 명시 
+ 	   						   
+ 	   트랜잭션 처리를 위해 수동 커밋 모드로 변경 
+ 	   트랜잭션 내 세부 업무의 실행이 모두 정상적으로 수행될 때  connection. commit(); ->  실제 db에 반영 
+ 	   문제가 발생했을 때 connection.rollback(); 	-> 작업취소 원상복귀 
+ 	   
+ 	   try{
+ 	   		수동커밋모드 
+ 	   		카드발급
+ 	   		포인트발급 
+ 	   		commit 
+ 	   }catch{
+ 	   		rollback
+ 	   }	
+*/
