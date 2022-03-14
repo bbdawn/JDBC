@@ -19,7 +19,7 @@ public class TestUnit2 {
 			//System.out.println("잔액조회:"+ dao.findBalanceByAccountNo("1", "1235"));
 			
 			//3.잔액조회 정상흐름 실행 		
-			//System.out.println("잔액조회:"+ dao.findBalanceByAccountNo("1", "1234"));
+			System.out.println("잔액조회:"+ dao.findBalanceByAccountNo("1", "1234"));
 		}catch (AccountNotFoundException e) {//ex. 11 계좌번호에 해당하는 계좌가 존재하지 않습니다
 				System.out.println(e.getMessage());			
 		}catch (NotMatchedPasswordException e) { //패스워드 일치하지 않을 떄			
