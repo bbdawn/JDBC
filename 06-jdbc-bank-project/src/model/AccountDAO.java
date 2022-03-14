@@ -26,9 +26,9 @@ public class AccountDAO {
 	}//AccountDAO
 	
 	/**
-	 * <<createAccount>>
-	 * 계좌 개설하는 메서드 
-	 * 예외흐름 : 초기 납입액이 1000원 미만일 경우 CreateAccountException을 발생시키고 전파한다 
+	 * <<createAccount>><br>
+	 * 계좌 개설하는 메서드 <br>
+	 * 예외흐름 : 초기 납입액이 1000원 미만일 경우 CreateAccountException을 발생시키고 전파한다<br> 
 	 * @param accountVO
 	 * @throws SQLException
 	 * @throws CreateAccountException
@@ -53,11 +53,11 @@ public class AccountDAO {
 	}
 	
 	/**
-	 * <<findBalanceByAccountNo>>
-	 * 계좌의 잔액을 조회하는 메서드
-	 * 계좌번호에 해당하는 계좌가 없으면 AccountNotFoundException을 발생시키고 전파한다 
-	 * 계좌번호에 해당하는 계좌가 존재하되, 비비밀번호가 일치하지 않으면 NotMatchedPasswordException을 발생시키고 전파한다
-	 * 계좌번호에 해당하는 계좌가 존재하고 비밀번호가 일치하면 잔액(balance)를 반환한다 
+	 * <<findBalanceByAccountNo>><br>
+	 * 계좌의 잔액을 조회하는 메서드<br>
+	 * 계좌번호에 해당하는 계좌가 없으면 AccountNotFoundException을 발생시키고 전파한다 <br>
+	 * 계좌번호에 해당하는 계좌가 존재하되, 비비밀번호가 일치하지 않으면 NotMatchedPasswordException을 발생시키고 전파한다<br>
+	 * 계좌번호에 해당하는 계좌가 존재하고 비밀번호가 일치하면 잔액(balance)를 반환한다 <br>
 	 * @param accountNo
 	 * @param password
 	 * @return balance
@@ -93,10 +93,10 @@ public class AccountDAO {
 	}//findBalanceByAccountNo
 	
 	/**
-	 * <<checkAccountNoAndPassword>>
-	 * 계좌번호 유무와 계좌번호에 따른 비밀번호 일치여부를 확인하는 메서드
-	 * 매개변수로 전달된 계좌번호가 존재하지 않으면 AccountNotFoundException을 발생시키고 전파
-	 * 매개변수로 전달된 패스워드가 일치하지 않으면 NotMatchedPasswordException을 발생시키고 전파 
+	 * <<checkAccountNoAndPassword>><br>
+	 * 계좌번호 유무와 계좌번호에 따른 비밀번호 일치여부를 확인하는 메서드<br>
+	 * 매개변수로 전달된 계좌번호가 존재하지 않으면 AccountNotFoundException을 발생시키고 전파<br>
+	 * 매개변수로 전달된 패스워드가 일치하지 않으면 NotMatchedPasswordException을 발생시키고 전파 <br>
 	 * @param accountNo
 	 * @param password
 	 * @throws SQLException
@@ -126,7 +126,40 @@ public class AccountDAO {
 	}//checkAccountNoAndPassword
 	
 	
-	
+	/**
+	 * <<AccountDAO>><br>
+	 * 계좌에 입금하는 메서드 <br>
+	 * 입금액이 0원 이하이면 NoMoneyException을 발생시키고 전파 <br>
+	 * 계좌번호가 존재하지 않으면 AccountNotFoundException을 발생시키고 전파<br>
+	 * 패스워드가 일치하지 않으면 NoMoneyException을 발생시키고 전파 <br>
+	 * 위 검증과정을 다 통과하면 입금처리된다 <br>
+	 * @param accountNo
+	 * @param password
+	 * @param money
+	 * @throws SQLException
+	 * @throws NotMatchedPasswordException
+	 * @throws NoMoneyException
+	 * @throws AccountNotFoundException
+	 */
+	public void deposit(String accountNo, String password, int money) throws SQLException, NotMatchedPasswordException, NoMoneyException, AccountNotFoundException{
+		if(money<=0)
+			throw new NoMoneyException("입금액은 0원을 초과해야합니다");
+		//계좌번호 확인과 비밀번호 일치여부 확인은 위에서 만든 메서드를 활용하기
+		checkAccountNoAndPassword(accountNo, password);
+		
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		try {
+			con=getConnection(); 
+			String sql="UPDATE ACCOUNT SET BALANCE=BALANCE+? WHERE ACCOUNT_NO=?";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, money);
+			pstmt.setString(2, accountNo);
+			pstmt.executeUpdate();//중요!!!! 빼먹지말기
+		}finally {
+			closeAll(pstmt, con);
+		}
+	}
 }//AccountDAO
 
 

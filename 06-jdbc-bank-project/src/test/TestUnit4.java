@@ -1,9 +1,16 @@
 package test;
 
+import java.sql.SQLException;
+
+import model.AccountDAO;
+import model.AccountNotFoundException;
+import model.NoMoneyException;
+import model.NotMatchedPasswordException;
+
 //step4 입금 테스트 
 public class TestUnit4 {
 	public static void main(String[] args) {
-		/*
+		
 		try {
 			AccountDAO dao=new AccountDAO();
 			//대안흐름테스트 
@@ -21,12 +28,10 @@ public class TestUnit4 {
 			System.out.println(e.getMessage());
 		}catch(NotMatchedPasswordException e) {
 			System.out.println(e.getMessage());
-		}catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		} 
-		*/
+		
 	}
 }
 
