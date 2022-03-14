@@ -26,6 +26,7 @@ public class AccountDAO {
 	}//AccountDAO
 	
 	/**
+	 * <<createAccount>>
 	 * 계좌 개설하는 메서드 
 	 * 예외흐름 : 초기 납입액이 1000원 미만일 경우 CreateAccountException을 발생시키고 전파한다 
 	 * @param accountVO
@@ -67,12 +68,36 @@ public class AccountDAO {
 	
 	public int findBalanceByAccountNo(String accountNo,String password)throws SQLException,AccountNotFoundException,NotMatchedPasswordException {
 		int balance=0;
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		try {
+			con=getConnection();
+			String sql="SELECT PASSWORD,BALANCE FROM ACCOUNT WHERE ACCOUNT_NO=11";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, accountNo);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {
+				if(rs.getString(1).equals(password)) {
+					balance=rs.getInt(2);
+				}else {
+					throw new NotMatchedPasswordException("계좌의 패스워드가 일치하지 않습니다");
+				}
+			}else {
+				throw new AccountNotFoundException(accountNo+" 계좌번호에 해당하는 계좌가 존재하지 않습니다");
+			}
+		}finally {
+			closeAll(rs,pstmt,con);
+		}
+		
+		
+		
 		return balance;
 	}//findBalanceByAccountNo
 	
 	
 	
-}
+}//AccountDAO
 
 
 
