@@ -1,9 +1,13 @@
 package test;
 
+import java.sql.SQLException;
+
+import model.AccountDAO;
+
 //step6. 계좌번호 존재유무를 확인하는 메서드 테스트 
 public class TestUnit6 {
 	public static void main(String[] args) {
-		/*
+		
 		try {
 			AccountDAO dao=new AccountDAO();
 			String accountNo="1";
@@ -17,6 +21,6 @@ public class TestUnit6 {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		*/
+		
 	}
 }

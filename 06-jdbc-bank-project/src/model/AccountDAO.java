@@ -204,6 +204,34 @@ public class AccountDAO {
 			closeAll(pstmt, con);
 		}
 	}
+	
+	/**
+	 * <<existsAccountNo>><br>
+	 * 계좌번호에 해당하는 계좌가 존재하는지 유무를 반환하는 메서드 <br>
+	 * 매개변수로 전달된 계좌번호에 해당하는 계좌가 존재하면 true, 존재하지 않으면 false를 반환한다<br>
+	 * @param accountNo
+	 * @return
+	 * @throws SQLException
+	 */
+	public boolean existsAccountNo(String accountNo) throws SQLException{
+		boolean result=false;
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		try {
+			con=getConnection(); 
+			String sql="SELECT COUNT(*) FROM ACCOUNT WHERE ACCOUNT_NO=?";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, accountNo);
+			rs=pstmt.executeQuery();
+			if(rs.next()&&rs.getInt(1)==1) {//count가 1이면 존재한다는 의미 -> true
+				result=true;
+			}
+		}finally {
+			closeAll(rs, pstmt, con);
+		}
+		return result;
+	}
 }//AccountDAO
 
 
