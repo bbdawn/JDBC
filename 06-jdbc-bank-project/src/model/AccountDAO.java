@@ -73,7 +73,7 @@ public class AccountDAO {
 		ResultSet rs=null;
 		try {
 			con=getConnection();
-			String sql="SELECT PASSWORD,BALANCE FROM ACCOUNT WHERE ACCOUNT_NO=11";
+			String sql="SELECT PASSWORD,BALANCE FROM ACCOUNT WHERE ACCOUNT_NO=?";
 			pstmt=con.prepareStatement(sql);
 			pstmt.setString(1, accountNo);
 			rs=pstmt.executeQuery();
@@ -89,11 +89,41 @@ public class AccountDAO {
 		}finally {
 			closeAll(rs,pstmt,con);
 		}
-		
-		
-		
 		return balance;
 	}//findBalanceByAccountNo
+	
+	/**
+	 * <<checkAccountNoAndPassword>>
+	 * 계좌번호 유무와 계좌번호에 따른 비밀번호 일치여부를 확인하는 메서드
+	 * 매개변수로 전달된 계좌번호가 존재하지 않으면 AccountNotFoundException을 발생시키고 전파
+	 * 매개변수로 전달된 패스워드가 일치하지 않으면 NotMatchedPasswordException을 발생시키고 전파 
+	 * @param accountNo
+	 * @param password
+	 * @throws SQLException
+	 * @throws AccountNotFoundException
+	 * @throws NotMatchedPasswordException
+	 */
+	public void checkAccountNoAndPassword(String accountNo, String password) throws SQLException,AccountNotFoundException,NotMatchedPasswordException{
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		try {
+			con=getConnection();
+			String sql="SELECT PASSWORD FROM ACCOUNT WHERE ACCOUNT_NO=?";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, accountNo);
+			rs=pstmt.executeQuery();
+			if(rs.next()) {//계좌번호에 따른 계좌가 존재하면
+				if(rs.getString(1).equals(password)==false) {//DB에 저장된 비밀번호와 매개변수로 전달된 비밀번호가 다르면 
+					throw new NotMatchedPasswordException("계좌에 따른 비밀번호가 일치하지 않습니다");
+				}
+			}else {//계좌번호에 따른 계좌가 존재하지 않을 때
+				throw new AccountNotFoundException(accountNo+" 계좌번호에 따른 계좌가 존재하지 않습니다");
+			}
+		}finally {
+			closeAll(rs,pstmt,con);
+		}
+	}//checkAccountNoAndPassword
 	
 	
 	
