@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import common.DbInfo;
 
@@ -283,13 +284,34 @@ public class AccountDAO {
 		pstmt.setInt(1, money);
 		pstmt.setString(2, receiverAccountNo);
 		pstmt.executeUpdate();
-		con.commit();
+		con.commit();//출금과 입금이 정상적으로 수행되었을 때 실제 db에 반영
 	}catch(Exception e) {
-		con.rollback();
+		con.rollback();//작업 중 문제가 발생되면 진행되었던 작업을 취소하고 원상태로 되돌린다
+		throw e;//Exception을 호출한 곳으로 전파한다
 	}finally {
 		closeAll(pstmt,con);
 	}
+	}//transfer
 	
+	
+	public ArrayList<AccountVO> findHighestBalanceAccount() throws SQLException{
+		ArrayList<AccountVO> list=new ArrayList<AccountVO>();
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		try {
+			con=getConnection();
+			String sql="SELECT ACCOUNT_NO,NAME,BALANCE FROM ACCOUNT WHERE BALANCE=(SELECT MAX(BALANCE) FROM ACCOUNT)";
+			pstmt=con.prepareStatement(sql);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				AccountVO vo=new AccountVO(rs.getString(1),rs.getString(2),null,rs.getInt(3));
+				list.add(vo);
+			}
+		}finally {
+			closeAll(rs,pstmt,con);
+		}
+		return list;
 	}
 }//AccountDAO
 
