@@ -1,9 +1,17 @@
 package test;
 
+import java.sql.SQLException;
+
+import model.AccountDAO;
+import model.AccountNotFoundException;
+import model.InsufficientBalanceException;
+import model.NoMoneyException;
+import model.NotMatchedPasswordException;
+
 //step7. 계좌이체 테스트 
 public class TestUnit7 {
 	public static void main(String[] args) {
-		/*
+		
 		try {
 			AccountDAO dao=new AccountDAO();
 			String senderAccountNo="1";
@@ -27,7 +35,7 @@ public class TestUnit7 {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		*/
+		
 	}
 }
 
