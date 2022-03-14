@@ -160,6 +160,31 @@ public class AccountDAO {
 			closeAll(pstmt, con);
 		}
 	}
+	
+	
+	/** 
+	 * <<withdraw>> <br>
+	 * 계좌 출금 메서드 <br>
+	 * 출금액이 0원 이하이면 NoMoneyException 발생, 전파<br>
+	 * 계좌번호에 해당하는 계좌가 없으면 AccountNotFoundException 발생, 전파<br>
+	 * 계좌번호에 대한 비밀번호가 다를 경우 NotMatchedPasswordException 발생, 전파<br>
+	 * 잔액이 부족할 경우 InsufficientBalanceException 발생, 전파<br>
+	 * 
+	 * 위의 검증 절차를 확인한 후 출금처리
+	 * 
+	 * @param accountNo
+	 * @param password
+	 * @param money
+	 * @throws SQLException
+	 * @throws NoMoneyException
+	 * @throws AccountNotFoundException
+	 * @throws NotMatchedPasswordException
+	 * @throws InsufficientBalanceException
+	 */
+	public void withdraw(String accountNo, String password, int money) throws SQLException, NoMoneyException, AccountNotFoundException, NotMatchedPasswordException, InsufficientBalanceException {
+
+	
+	}
 }//AccountDAO
 
 

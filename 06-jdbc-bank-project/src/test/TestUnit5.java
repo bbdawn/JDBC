@@ -1,9 +1,17 @@
 package test;
 
+import java.sql.SQLException;
+
+import model.AccountDAO;
+import model.AccountNotFoundException;
+import model.InsufficientBalanceException;
+import model.NoMoneyException;
+import model.NotMatchedPasswordException;
+
 //step5 출금 테스트 
 public class TestUnit5 {
 	public static void main(String[] args) {	
-		/*
+		
 		try {
 			AccountDAO dao=new AccountDAO();
 			String accountNo="1";//출금계좌번호
@@ -23,7 +31,7 @@ public class TestUnit5 {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		*/
+		
 	}
 	
 	
