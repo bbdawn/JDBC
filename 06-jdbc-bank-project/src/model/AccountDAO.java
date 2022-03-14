@@ -182,8 +182,27 @@ public class AccountDAO {
 	 * @throws InsufficientBalanceException
 	 */
 	public void withdraw(String accountNo, String password, int money) throws SQLException, NoMoneyException, AccountNotFoundException, NotMatchedPasswordException, InsufficientBalanceException {
+		if(money<=0)
+			throw new NoMoneyException("출금액은 0원을 초과해야합니다");
+		int balance = findBalanceByAccountNo(accountNo, password);
+		
+		//출금액과 잔액을 비교해서 출금액이 잔액보다 크면 예외를 발생시키기
+		if(balance<money) {
+			throw new InsufficientBalanceException("잔액부족 : 출금액이 잔액보다 큽니다");
+		}
 
-	
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		try {
+			con=getConnection(); 
+			String sql="UPDATE ACCOUNT SET BALANCE=BALANCE-? WHERE ACCOUNT_NO=?";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, money);
+			pstmt.setString(2, accountNo);
+			pstmt.executeUpdate();//중요!!!! 빼먹지말기
+		}finally {
+			closeAll(pstmt, con);
+		}
 	}
 }//AccountDAO
 
