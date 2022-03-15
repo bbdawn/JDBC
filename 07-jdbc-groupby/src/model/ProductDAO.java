@@ -10,7 +10,7 @@ import java.util.HashMap;
 
 import common.DbInfo;
 
-public class EmployeeDAO {
+public class ProductDAO {
 	public Connection getConnection() throws SQLException {
 		return DriverManager.getConnection(DbInfo.URL,DbInfo.USER,DbInfo.PASS);
 	}
@@ -27,45 +27,33 @@ public class EmployeeDAO {
 			rs.close();
 		closeAll(rs, pstmt, con);
 	}
-	
-	public ArrayList<HashMap<String, Object>> findJobGroupList() throws SQLException{
+
+	public ArrayList<HashMap<String, Object>> findProductMakerGroupLessThanAvgPrice() throws SQLException {
 		ArrayList<HashMap<String, Object>>list=new ArrayList<HashMap<String,Object>>();
 		Connection con=null;
 		PreparedStatement pstmt=null;
 		ResultSet rs=null;
 		try {
 			con=getConnection();
-			StringBuilder sql=new StringBuilder("SELECT job,count(*) as 사원수, max(salary) as 최고액 ");
-			sql.append("FROM s_employee ");
-			sql.append("GROUP BY job ");
-			sql.append("ORDER BY 최고액 DESC ");
+			StringBuilder sql=new StringBuilder("SELECT MAKER,AVG(PRICE) AS 상품평균가 ");
+			sql.append("FROM PRODUCT ");
+			sql.append("GROUP BY MAKER ");
+			sql.append("HAVING AVG(PRICE)< (SELECT AVG(PRICE) FROM PRODUCT) ");
+			sql.append("ORDER BY 상품평균가 DESC");
 			pstmt=con.prepareStatement(sql.toString());
 			rs=pstmt.executeQuery();
 			while(rs.next()) {
 				HashMap<String,Object> map=new HashMap<String,Object>();
-				map.put("job",rs.getString(1));
-				map.put("empcount",rs.getInt(2));
-				map.put("highestsal",rs.getInt(3));
+				map.put("maker", rs.getString(1));
+				map.put("avgprice", rs.getInt(2));
 				list.add(map);
 			}
 		}finally {
-			closeAll(rs, pstmt, con);
+			closeAll(rs,pstmt,con);
 		}
 		return list;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
