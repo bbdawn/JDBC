@@ -2,13 +2,16 @@ package model;
 
 public class EmployeeVO {
 	private int empno;
-	private String jame;
+	private String name;
 	private String job;
 	private int salary;
-	public EmployeeVO(int empno, String jame, String job, int salary) {
+	public EmployeeVO() {
+		super();		
+	}
+	public EmployeeVO(int empno, String name, String job, int salary) {
 		super();
 		this.empno = empno;
-		this.jame = jame;
+		this.name = name;
 		this.job = job;
 		this.salary = salary;
 	}
@@ -18,11 +21,11 @@ public class EmployeeVO {
 	public void setEmpno(int empno) {
 		this.empno = empno;
 	}
-	public String getJame() {
-		return jame;
+	public String getName() {
+		return name;
 	}
-	public void setJame(String jame) {
-		this.jame = jame;
+	public void setName(String name) {
+		this.name = name;
 	}
 	public String getJob() {
 		return job;
@@ -38,12 +41,7 @@ public class EmployeeVO {
 	}
 	@Override
 	public String toString() {
-		return "EmployeeVO [empno=" + empno + ", jame=" + jame + ", job=" + job + ", salary=" + salary + "]";
+		return "EmployeeVO [empno=" + empno + ", name=" + name + ", job=" + job + ", salary=" + salary + "]";
 	}
-	
-	
-	
-	
-	
 	
 }
