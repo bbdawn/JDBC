@@ -53,11 +53,38 @@ public class EmployeeDAO {
 			closeAll(rs, pstmt, con);
 		}
 		return empVO;
-	}
+	}//findEmployeeByEmpNo
 	
-	public ArrayList<EmployeeVO> findEmployeeByJob(String job) {
-		return null;
-	}
+	public ArrayList<EmployeeVO> findEmployeeByJob(String job) throws SQLException {
+		ArrayList<EmployeeVO> list=new ArrayList<EmployeeVO>();
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		try {
+			con=getConnection();
+			StringBuilder sql=new StringBuilder();
+			sql.append("SELECT e.ename, e.sal, d.dname,d.loc ");
+			sql.append("FROM K_EMPLOYEE E, DEPARTMENT D ");
+			sql.append("WHERE E.DEPTNO=D.DEPTNO AND E.JOB=? ");
+			sql.append("ORDER BY d.loc DESC");
+			pstmt=con.prepareStatement(sql.toString());
+			pstmt.setString(1, job);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				DepartmentVO deptVO=new DepartmentVO();
+				deptVO.setDname(rs.getString("dname"));
+				deptVO.setLoc(rs.getString("loc"));
+				EmployeeVO empVO=new EmployeeVO();
+				empVO.setEname(rs.getString("ename"));
+				empVO.setSalary(rs.getInt("sal"));
+				empVO.setDepartmentVO(deptVO);
+				list.add(empVO);
+			}
+		}finally {
+			closeAll(rs, pstmt, con);
+		}
+		return list;
+	}//findEmployeeByJob
 	
 	
 	/*
