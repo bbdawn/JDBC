@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import common.DbInfo;
 
@@ -53,6 +54,20 @@ public class EmployeeDAO {
 		}
 		return empVO;
 	}
+	
+	public ArrayList<EmployeeVO> findEmployeeByJob(String job) {
+		return null;
+	}
+	
+	
+	/*
+	  	SELECT e.ename, e.sal, d.dname,d.loc
+    	FROM K_EMPLOYEE E
+    	INNER JOIN DEPARTMENT D ON E.DEPTNO=D.DEPTNO
+    	WHERE JOB = '총무'
+    	ORDER BY d.loc DESC
+	 */
+	
 }
 
 
